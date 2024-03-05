@@ -47,12 +47,12 @@ Your tasks:
 4. During the game, Bayern Munich (team 1) used 3 substitute players. So create a
    new array ('players1Final') containing all the original team1 players plus
    'Thiago', 'Coutinho' and 'Perisic'
-5. Based on the game.odds object, create one variable for each odd (called
+5. Based on the game.teams object, create one variable for each team (called
    'team1', 'draw' and 'team2')
 6. Write a function ('printGoals') that receives an arbitrary number of player
    names (not an array) and prints each of them to the console, along with the
    number of goals that were scored in total (number of player names passed in)
-7. The team with the lower odd is more likely to win. Print to the console which
+7. The team with the lower team is more likely to win. Print to the console which
    team is more likely to win, without using an if/else statement or the ternary
    operator.
 
@@ -96,7 +96,7 @@ const game = {
   score: '4:0',
   scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
   date: 'Nov 9th, 2037',
-  odds: {
+  teams: {
     team1: 11.33,
     x: 3.25,
     team2: 6.5,
@@ -121,7 +121,7 @@ const game = {
 
 // // 5.
 // const {
-//   odds: { team1, x: draw, team2 },
+//   teams: { team1, x: draw, team2 },
 // } = game;
 // console.log(team1, draw, team2);
 
@@ -150,15 +150,15 @@ Let's continue with our football betting app! Keep using the 'game' variable fro
 Your tasks:
 1. Loop over the game.scored array and print each player name to the console,
   along with the goal number (Example: "Goal 1: Lewandowski")
-2. Use a loop to calculate the average odd and log it to the console (We already
+2. Use a loop to calculate the average team and log it to the console (We already
   studied how to calculate averages, you can go check if you don't remember)
-3. Print the 3 odds to the console, but in a nice formatted way, exactly like this:
-  Odd of victory Bayern Munich: 1.33
-  Odd of draw: 3.25
-  Odd of victory Borrussia Dortmund: 6.5
+3. Print the 3 teams to the console, but in a nice formatted way, exactly like this:
+  team of victory Bayern Munich: 1.33
+  team of draw: 3.25
+  team of victory Borrussia Dortmund: 6.5
   Get the team names directly from the game object, don't hardcode them (except for "draw"). 
   
-  Hint: Note how the odds and the game objects have the same property names 😘
+  Hint: Note how the teams and the game objects have the same property names 😘
 4. Bonus: Create an object called 'scorers' which contains the names of the
   players who scored as properties, and the number of goals as the value. In this
   game, it will look like this:
@@ -171,6 +171,36 @@ Your tasks:
 
 GOOD LUCK 😀
 */
+
+// // 1.
+// for (const [i, player] of game.scored.entries()) {
+//   console.log(`Goal ${i + 1}: ${player}`);
+// }
+
+// // 2.
+// let total = 0;
+// const teams = Object.values(game.teams);
+// for (const team of teams) {
+//   total += team;
+//   length += 1;
+// }
+
+// const average = total / teams.length;
+// console.log(average);
+
+// // 3.
+// for (const [team, odd] of Object.entries(game.teams)) {
+//   const teamStr = team === 'x' ? 'draw' : `victory ${game[team]}`;
+//   console.log(`Odd of ${teamStr}: ${odd}`);
+// }
+
+// 4.
+// const scorers = {};
+// for (const score of game.scored) {
+//   if (!scorers[score]) scorers[score] = 0;
+//   scorers[score] += 1;
+// }
+// console.log(scorers);
 
 /*
 ////////////////////

@@ -239,31 +239,42 @@ const gameEvents = new Map([
   [92, '🟡 Yellow card'],
 ]);
 
-// 1.
-const events = new Set();
-for (const [key, value] of gameEvents) {
-  events.add(value);
-}
-console.log(events);
+// // 1.
+// const events = new Set();
+// for (const [key, value] of gameEvents) {
+//   events.add(value);
+// }
+// console.log(events);
 
-// 2.
-gameEvents.delete(64);
+// // 2.
+// gameEvents.delete(64);
 
-// 3.
-console.log(
-  `An event happend, on average, every ${90 / gameEvents.size} minutes`
-);
+// // 3.
+// console.log(
+//   `An event happend, on average, every ${90 / gameEvents.size} minutes`
+// );
 
-const time = [...gameEvents.keys()].pop();
-console.log(
-  `An event happend, on average, every ${time / gameEvents.size} minutes`
-);
+// const time = [...gameEvents.keys()].pop();
+// console.log(
+//   `An event happend, on average, every ${time / gameEvents.size} minutes`
+// );
 
-// 4.
-for (const [min, event] of gameEvents) {
-  const half = min <= 45 ? `FIRST` : 'SECOND';
-  console.log(`[${half} HALF] ${min}: ${event}`);
-}
+// // 4.
+// for (const [min, event] of gameEvents) {
+//   const half = min <= 45 ? `FIRST` : 'SECOND';
+//   console.log(`[${half} HALF] ${min}: ${event}`);
+// }
+
+/*
+// working with strings
+const half = 'first half and second half';
+console.log(half.replace('half', 'round'));
+console.log(half);
+console.log(half.replaceAll('half', 'HALF'));
+console.log(half.replace(/half/g, 'HALF'));
+console.log(half);
+*/
+
 /*
 /////////////////////
 Coding Challenge #4
@@ -300,6 +311,32 @@ Afterwards, test with your own test data!
 
 GOOD LUCK 😀
 
-document.body.append(document.createElement('textarea'));
-document.body.append(document.createElement('button'));
 */
+
+const textArea = document.body.append(document.createElement('textarea'));
+document.body.append(document.createElement('button'));
+
+document.querySelector('button').addEventListener('click', function () {
+  const text = document.querySelector('textarea').value;
+  console.log(text);
+  const names = text.split('\n');
+  const newNames = [];
+  let repeat = 1;
+  for (let name of names) {
+    const idx = name.indexOf('_');
+    const newName = name.replace(
+      name,
+      name.slice(0, idx).trim() +
+        name[idx + 1].toUpperCase() +
+        name.slice(idx + 2).toLowerCase()
+    );
+    const checked = '✅'.repeat(repeat);
+    repeat += 1;
+    newNames.push(`${newName} ${checked}`);
+  }
+
+  const newText = document.querySelector('textarea');
+  newText.value = newNames.join('\r\n');
+  console.log(newText.value);
+  console.log(typeof text);
+});

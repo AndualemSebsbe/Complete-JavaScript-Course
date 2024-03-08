@@ -35,40 +35,41 @@ Test data for bonus:
  GOOD LUCK 😀
 */
 
-const poll = {
-  question: 'What is your favourite programming language?',
-  options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
-  // This generates [0, 0, 0, 0]. More in the next section!
-  answers: new Array(4).fill(0),
-  registerNewAnswer() {
-    const answer = Number(
-      prompt(
-        this.question +
-          '\n' +
-          this.options.join('\n') +
-          '\n (write option number)'
-      )
-    );
-    if (!isNaN(answer) && answer >= 0 && answer <= 3) {
-      this.answers[answer] += 1;
-    }
+// const poll = {
+//   question: 'What is your favourite programming language?',
+//   options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+//   // This generates [0, 0, 0, 0]. More in the next section!
+//   answers: new Array(4).fill(0),
+//   registerNewAnswer() {
+//     const answer = Number(
+//       prompt(
+//         this.question +
+//           '\n' +
+//           this.options.join('\n') +
+//           '\n (write option number)'
+//       )
+//     );
+//     if (!isNaN(answer) && answer >= 0 && answer <= 3) {
+//       this.answers[answer] += 1;
+//     }
 
-    this.diplayResults();
-    this.diplayResults('string');
-  },
-  diplayResults(type = 'array') {
-    if (type === 'array') console.log(this.answers);
-    else if (type === 'string')
-      console.log(`Poll results are ${this.answers.join(', ')}`);
-  },
-};
+//     this.diplayResults();
+//     this.diplayResults('string');
+//   },
+//   diplayResults(type = 'array') {
+//     if (type === 'array') console.log(this.answers);
+//     else if (type === 'string')
+//       console.log(`Poll results are ${this.answers.join(', ')}`);
+//   },
+// };
 
-const btn = document.querySelector('.poll');
-const register = poll.registerNewAnswer;
-btn.addEventListener('click', register.bind(poll));
+// const btn = document.querySelector('.poll');
+// const register = poll.registerNewAnswer;
+// btn.addEventListener('click', register.bind(poll));
 
-poll.diplayResults.call({ answers: [5, 2, 3] });
-poll.diplayResults.call({ answers: [1, 5, 3, 9, 6, 1] }, 'string');
+// poll.diplayResults.call({ answers: [5, 2, 3] });
+// poll.diplayResults.call({ answers: [1, 5, 3, 9, 6, 1] }, 'string');
+
 /*
 Coding Challenge #2
 
@@ -85,8 +86,12 @@ and what that means for the variables involved in this example.
 GOOD LUCK 😀
 */
 
-(function () {
-const header = document.querySelector('h1');
-header.style.color = 'red';
-
+const f = (function () {
+  const header = document.querySelector('h1');
+  header.style.color = 'red';
+  return function () {
+    header.style.color = 'blue';
+  };
 })();
+
+document.querySelector('body').addEventListener('click', f);

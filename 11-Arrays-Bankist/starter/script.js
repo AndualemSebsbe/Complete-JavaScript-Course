@@ -81,12 +81,33 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 
-const balance = function (movements) {
-  const sum = movements.reduce((acc, mov) => acc + mov);
-  return sum;
+const displayBalance = function (movements) {
+  const total = movements.reduce((acc, mov) => acc + mov);
+  labelBalance.textContent = `${total}€`;
+};
+displayBalance(account1.movements);
+// console.log(displayBalance(account1.movements));
+
+const displaySummary = function (movements) {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, deposit) => acc + deposit, 0);
+  labelSumIn.textContent = `${incomes}€`;
+
+  const out = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, withdraw) => acc + withdraw, 0);
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(mov => (mov * 1.2) / 100)
+    .filter(int => int >= 1)
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `${interest}€`;
 };
 
-// console.log(balance(account1.movements));
+displaySummary(account1.movements);
 
 const createUsernames = function (accs) {
   accs.forEach(function (acc) {
@@ -99,7 +120,7 @@ const createUsernames = function (accs) {
 
   return accs;
 };
-
+createUsernames(accounts);
 // console.log(createUsernames(accounts));
 
 /////////////////////////////////////////////////
@@ -190,37 +211,49 @@ Test data:
 GOOD LUCK 😀
 */
 
-const calcAverageHumanAge = function (dogs) {
-  const humanAges = dogs.map(dogAge => {
-    if (dogAge <= 2) {
-      return dogAge * 2;
-    } else {
-      return 16 + dogAge * 4;
-    }
-  });
-  console.log(humanAges);
+// const calcAverageHumanAge = function (dogs) {
+//   const humanAges = dogs.map(dogAge => {
+//     if (dogAge <= 2) {
+//       return dogAge * 2;
+//     } else {
+//       return 16 + dogAge * 4;
+//     }
+//   });
+//   console.log(humanAges);
 
-  const adults = humanAges.filter(humanAge => humanAge >= 18);
-  console.log(adults);
+//   const adults = humanAges.filter(humanAge => humanAge >= 18);
+//   console.log(adults);
 
-  const averageHumanAge =
-    adults.reduce((acc, age) => acc + age, 0) / adults.length;
-  return averageHumanAge;
-};
+//   const averageHumanAge =
+//     adults.reduce((acc, age) => acc + age, 0) / adults.length;
+//   return averageHumanAge;
+// };
 
-console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
-console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
+// console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
+// console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
 /*
 Coding Challenge #3
 
 Rewrite the 'calcAverageHumanAge' function from Challenge #2, but this time
 as an arrow function, and using chaining!
+
 Test data:
-§ Data 1: [5, 2, 4, 1, 15, 8, 3]
-§ Data 2: [16, 6, 10, 5, 6, 1, 4]
-GOOD LUCK 😀
+ Data 1: [5, 2, 4, 1, 15, 8, 3]
+ Data 2: [16, 6, 10, 5, 6, 1, 4]
+
+ GOOD LUCK 😀
 */
 
+const calcAverageHumanAge = function (dogs) {
+  const averageHumanAge = dogs
+    .map(dogAge => (dogAge <= 2 ? dogAge * 2 : 16 + dogAge * 4))
+    .filter(humanAge => humanAge >= 18)
+    .reduce((acc, adultAge, i, arr) => acc + adultAge / arr.length, 0);
+  return averageHumanAge;
+};
+
+console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
+console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
 /*
 Coding Challenge #4
 Julia and Kate are still studying dogs, and this time they are studying if dogs are

@@ -81,6 +81,13 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 
+const balance = function (movements) {
+  const sum = movements.reduce((acc, mov) => acc + mov);
+  return sum;
+};
+
+console.log(balance(account1.movements));
+
 const createUsernames = function (accs) {
   accs.forEach(function (acc) {
     acc.username = acc.owner

@@ -61,17 +61,7 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
-
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
-
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// Functions
 const displayMovements = function (movements) {
   containerMovements.innerHTML = '';
   movements.forEach(function (mov, i) {
@@ -90,6 +80,32 @@ const displayMovements = function (movements) {
 };
 
 displayMovements(account1.movements);
+
+const createUsernames = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+
+  return accs;
+};
+
+console.log(createUsernames(accounts));
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+// LECTURES
+
+const currencies = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]);
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 /*
@@ -136,6 +152,95 @@ const checkDogs = function (dogsJulia, dogsKate) {
   });
 };
 
-checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
-console.log('---------- TEST DATA 2 ------------');
-checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
+// checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
+// console.log('---------- TEST DATA 2 ------------');
+// checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
+
+/*
+Coding Challenge #2
+
+Let's go back to Julia and Kate's study about dogs. This time, they want to convert
+dog ages to human ages and calculate the average age of the dogs in their study.
+
+Your tasks:
+
+Create a function 'calcAverageHumanAge', which accepts an arrays of dog's
+ages ('ages'), and does the following things in order:
+
+1. Calculate the dog age in human years using the following formula: if the dog is
+<= 2 years old, humanAge = 2 * dogAge. If the dog is > 2 years old,
+humanAge = 16 + dogAge * 4
+2. Exclude all dogs that are less than 18 human years old (which is the same as
+keeping dogs that are at least 18 years old)
+3. Calculate the average human age of all adult dogs (you should already know
+from other challenges how we calculate averages 😘)
+4. Run the function for both test datasets
+
+Test data:
+ Data 1: [5, 2, 4, 1, 15, 8, 3]
+ Data 2: [16, 6, 10, 5, 6, 1, 4]
+
+GOOD LUCK 😀
+*/
+
+/*
+Coding Challenge #3
+
+Rewrite the 'calcAverageHumanAge' function from Challenge #2, but this time
+as an arrow function, and using chaining!
+Test data:
+§ Data 1: [5, 2, 4, 1, 15, 8, 3]
+§ Data 2: [16, 6, 10, 5, 6, 1, 4]
+GOOD LUCK 😀
+*/
+
+/*
+Coding Challenge #4
+Julia and Kate are still studying dogs, and this time they are studying if dogs are
+eating too much or too little.
+Eating too much means the dog's current food portion is larger than the
+recommended portion, and eating too little is the opposite.
+Eating an okay amount means the dog's current food portion is within a range 10%
+above and 10% below the recommended portion (see hint).
+Your tasks:
+1. Loop over the 'dogs' array containing dog objects, and for each dog, calculate
+the recommended food portion and add it to the object as a new property. Do
+not create a new array, simply loop over the array. Forumla:
+recommendedFood = weight ** 0.75 * 28. (The result is in grams of
+food, and the weight needs to be in kg)
+2. Find Sarah's dog and log to the console whether it's eating too much or too
+little. Hint: Some dogs have multiple owners, so you first need to find Sarah in
+the owners array, and so this one is a bit tricky (on purpose) �
+3. Create an array containing all owners of dogs who eat too much
+('ownersEatTooMuch') and an array with all owners of dogs who eat too little
+('ownersEatTooLittle').
+4. Log a string to the console for each array created in 3., like this: "Matilda and
+Alice and Bob's dogs eat too much!" and "Sarah and John and Michael's dogs eat
+too little!"
+5. Log to the console whether there is any dog eating exactly the amount of food
+that is recommended (just true or false)
+6. Log to the console whether there is any dog eating an okay amount of food
+(just true or false)
+7. Create an array containing the dogs that are eating an okay amount of food (try
+to reuse the condition used in 6.)
+8. Create a shallow copy of the 'dogs' array and sort it by recommended food
+portion in an ascending order (keep in mind that the portions are inside the
+array's objects 😘)
+
+Hints:
+ Use many different tools to solve these challenges, you can use the summary lecture to choose between them 😘
+ Being within a range 10% above and below the recommended portion means:
+current > (recommended * 0.90) && current < (recommended *
+1.10). Basically, the current portion should be between 90% and 110% of the
+recommended portion.
+
+Test data:
+ const dogs = [
+ { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+ { weight: 8, curFood: 200, owners: ['Matilda'] },
+ { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+ { weight: 32, curFood: 340, owners: ['Michael'] },
+ ];
+
+ GOOD LUCK 😀
+*/

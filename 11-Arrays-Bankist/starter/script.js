@@ -86,7 +86,7 @@ const balance = function (movements) {
   return sum;
 };
 
-console.log(balance(account1.movements));
+// console.log(balance(account1.movements));
 
 const createUsernames = function (accs) {
   accs.forEach(function (acc) {
@@ -100,7 +100,7 @@ const createUsernames = function (accs) {
   return accs;
 };
 
-console.log(createUsernames(accounts));
+// console.log(createUsernames(accounts));
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -190,6 +190,26 @@ Test data:
 GOOD LUCK 😀
 */
 
+const calcAverageHumanAge = function (dogs) {
+  const humanAges = dogs.map(dogAge => {
+    if (dogAge <= 2) {
+      return dogAge * 2;
+    } else {
+      return 16 + dogAge * 4;
+    }
+  });
+  console.log(humanAges);
+
+  const adults = humanAges.filter(humanAge => humanAge >= 18);
+  console.log(adults);
+
+  const averageHumanAge =
+    adults.reduce((acc, age) => acc + age, 0) / adults.length;
+  return averageHumanAge;
+};
+
+console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
+console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
 /*
 Coding Challenge #3
 

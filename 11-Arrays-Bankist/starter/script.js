@@ -167,6 +167,39 @@ btnTransfer.addEventListener('click', function (e) {
   }
 });
 
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+
+  if (amount > 0 && currentAcc.movements.some(mov => mov > amount * 0.1)) {
+    currentAcc.movements.push(amount);
+    updateUI(currentAcc);
+  }
+  inputLoanAmount.value = '';
+});
+
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const accUsername = inputCloseUsername.value;
+  const password = Number(inputClosePin.value);
+
+  inputCloseUsername.value = inputClosePin.value = '';
+  inputClosePin.blur();
+
+  const acc = accounts.find(acc => acc.username === accUsername);
+  if (acc && password === acc.pin) {
+    const curr = currentAcc;
+    // const index = accounts.indexOf(acc);
+    const index = accounts.findIndex(acc => acc.username === accUsername);
+    accounts.splice(index, 1);
+    if (curr.username === accUsername) {
+      containerApp.style.opacity = 0;
+      labelWelcome.textContent = `Good Night, ${curr.owner.split(' ')[0]}`;
+    }
+  }
+});
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -296,25 +329,30 @@ const calcAverageHumanAge = function (dogs) {
   return averageHumanAge;
 };
 
-console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
-console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
+// console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
+// console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
 /*
-Coding Challenge #4
+// Coding Challenge #4
+
 Julia and Kate are still studying dogs, and this time they are studying if dogs are
 eating too much or too little.
+
 Eating too much means the dog's current food portion is larger than the
 recommended portion, and eating too little is the opposite.
+
 Eating an okay amount means the dog's current food portion is within a range 10%
 above and 10% below the recommended portion (see hint).
+
 Your tasks:
+
 1. Loop over the 'dogs' array containing dog objects, and for each dog, calculate
 the recommended food portion and add it to the object as a new property. Do
 not create a new array, simply loop over the array. Forumla:
-recommendedFood = weight ** 0.75 * 28. (The result is in grams of
+recFood = weight ** 0.75 * 28. (The result is in grams of
 food, and the weight needs to be in kg)
 2. Find Sarah's dog and log to the console whether it's eating too much or too
 little. Hint: Some dogs have multiple owners, so you first need to find Sarah in
-the owners array, and so this one is a bit tricky (on purpose) �
+the owners array, and so this one is a bit tricky (on purpose) 😘
 3. Create an array containing all owners of dogs who eat too much
 ('ownersEatTooMuch') and an array with all owners of dogs who eat too little
 ('ownersEatTooLittle').
@@ -338,13 +376,126 @@ current > (recommended * 0.90) && current < (recommended *
 1.10). Basically, the current portion should be between 90% and 110% of the
 recommended portion.
 
-Test data:
- const dogs = [
- { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
- { weight: 8, curFood: 200, owners: ['Matilda'] },
- { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
- { weight: 32, curFood: 340, owners: ['Michael'] },
- ];
 
- GOOD LUCK 😀
+GOOD LUCK 😀
 */
+// Test data:
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] },
+];
+
+// 1.
+// SOLUTION 1
+// const recFoods = dogs.map(dog => dog.weight ** 0.75 * 28);
+// console.log(recFoods);
+
+// SOLUTION 2
+dogs.forEach(dog => (dog.recFood = Math.trunc(dog.weight ** 0.75 * 28)));
+console.log(dogs);
+
+// 2.
+// SOLUTION 1
+/*
+const index = dogs.findIndex(dog => dog.owners.includes('Sarah'));
+const sarahDog = dogs[index];
+console.log(index);
+const sarahRecommended = recFoods[index];
+
+if (sarahDog.curFood > sarahRecommended)
+  console.log(`Sarah's dog is eating too much`);
+else
+  console.log(`Sarah's dog is eating too little`);
+*/
+
+// SOLUTION 2
+const index = dogs.findIndex(dog => dog.owners.includes('Sarah'));
+const sarahDog = dogs[index];
+console.log(index);
+
+console.log(
+  `Sarah's dog is eating too ${
+    sarahDog.curFood > sarahDog.recFood ? 'much' : 'little'
+  }`
+);
+
+// 3.
+// SOLUTION 1
+/*
+const ownersEatTooMuch = dogs
+  .filter(
+    (dog, i) => dog.curFood > recFoods[i]
+  )
+  // .map(dog => dog.owners)
+  // .flat();
+  .flatMap(dog => dog.owners);
+// console.log(ownersEatTooMuch);
+
+const ownersEatTooLittle = dogs
+  .filter(
+    (dog, i) => dog.curFood <= recFoods[i]
+  )
+  .flatMap(dog => dog.owners);
+// console.log(ownersEatTooLittle);
+*/
+
+// SOLUTION 2
+const ownersEatTooMuch = dogs
+  .filter(dog => dog.curFood > dog.recFood)
+  .flatMap(dog => dog.owners);
+// console.log(ownersEatTooMuch);
+
+const ownersEatTooLittle = dogs
+  .filter(dog => dog.curFood < dog.recFood)
+  .flatMap(dog => dog.owners);
+// console.log(ownersEatTooLittle);
+
+// 4.
+console.log(`${ownersEatTooMuch.join(' and ')}'s dogs eat too much!`);
+console.log(`${ownersEatTooLittle.join(' and ')}'s dogs eat too low!`);
+
+// 5.
+// SOLUTION 1
+// console.log(dogs.some((dog, i) => dog.curFood === recFoods[i]));
+
+// SOLUTION 2
+console.log(dogs.some(dog => dog.curFood === dog.recFood));
+
+// 6.
+// SOLUTION 1
+/*
+console.log(
+  dogs.some(
+    (dog, i) =>
+      dog.curFood < recFoods[i] * 1.1 &&
+      dog.curFood > recFoods[i] * 0.9
+  )
+);
+*/
+
+// SOLUTION 2
+const checkEatingOkay = dog =>
+  dog.curFood < dog.recFood * 1.1 && dog.curFood > dog.recFood * 0.9;
+
+console.log(dogs.some(checkEatingOkay));
+
+// 7.
+// SOLUTION 1
+/*
+const dogsEatingOkay = dogs.filter(
+  (dog, i) =>
+    dog.curFood < recFoods[i] * 1.1 &&
+    dog.curFood > recFoods[i] * 0.9
+);
+console.log(dogsEatingOkay);
+*/
+
+// SOLUTION 2
+const dogsEatingOkay = dogs.filter(checkEatingOkay);
+console.log(dogsEatingOkay);
+
+// 8.
+const dogsSorted = dogs.slice().sort((a, b) => a.recFood - b.recFood);
+console.log(dogsSorted);
